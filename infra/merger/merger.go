@@ -9,21 +9,22 @@ import (
 	pdfapi "github.com/pdfcpu/pdfcpu/pkg/api"
 )
 
-type merger struct {
-	pdfs []usecase.PDF
+type merger struct{}
+
+func NewMerger() usecase.Merger {
+	return &merger{}
 }
 
-func NewMerger(pdfs []usecase.PDF) usecase.Merger {
-	return &merger{pdfs: pdfs}
-}
-
-func (m *merger) Merge() (*usecase.PDF, error) {
-	if len(m.pdfs) < 2 {
+func (m *merger) Merge(pdfs []*usecase.PDF) (*usecase.PDF, error) {
+	if len(pdfs) < 2 {
 		return nil, errors.New("at least two PDFs are required for merging")
 	}
 
 	var pdfReaders []io.ReadSeeker
-	for _, pdf := range m.pdfs {
+	for _, pdf := range pdfs {
+		if pdf == nil {
+			continue
+		}
 		pdfReaders = append(pdfReaders, bytes.NewReader(pdf.Content()))
 	}
 

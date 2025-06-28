@@ -24,7 +24,7 @@ func testdataPath(filename string) string {
 	return filepath.Join(testdir, "testdata", filename)
 }
 
-func inputTestdata(t *testing.T) []usecase.PDF {
+func inputTestdata(t *testing.T) []*usecase.PDF {
 	a, err := os.ReadFile(testdataPath("a.pdf"))
 	if err != nil {
 		t.Fatalf("failed to read a.pdf: %v", err)
@@ -35,7 +35,7 @@ func inputTestdata(t *testing.T) []usecase.PDF {
 	}
 	pdfA := usecase.NewPDF(a)
 	pdfB := usecase.NewPDF(b)
-	return []usecase.PDF{*pdfA, *pdfB}
+	return []*usecase.PDF{pdfA, pdfB}
 }
 
 func saveFile(t *testing.T, pdf *usecase.PDF) {
@@ -48,8 +48,8 @@ func saveFile(t *testing.T, pdf *usecase.PDF) {
 
 func TestMerger_Merge(t *testing.T) {
 	testdata := inputTestdata(t)
-	merger := NewMerger(testdata)
-	pdf, err := merger.Merge()
+	merger := NewMerger()
+	pdf, err := merger.Merge(testdata)
 	if err != nil {
 		t.Fatalf("expected no error, got %v", err)
 	}

@@ -1,5 +1,5 @@
 package usecase
 
 type Merger interface {
-	Merge() (*PDF, error)
+	Merge([]*PDF) (*PDF, error)
 }
