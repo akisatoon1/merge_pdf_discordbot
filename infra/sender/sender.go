@@ -2,6 +2,7 @@ package sender
 
 import (
 	"bytes"
+	"errors"
 	"merge_pdf/usecase"
 
 	"github.com/bwmarrin/discordgo"
@@ -20,6 +21,10 @@ func NewSender(s *discordgo.Session, channelID string) usecase.Sender {
 }
 
 func (s *sender) Send(pdf *usecase.PDF) error {
+	if s.session == nil {
+		return errors.New("discord session is nil")
+	}
+
 	if pdf == nil {
 		return nil // No PDF to send
 	}

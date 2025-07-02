@@ -80,6 +80,10 @@ func download(s *discordgo.Session, m *discordgo.MessageCreate) ([]*PDF, error) 
 func getURLs(m *discordgo.MessageCreate) []string {
 	var urls []string
 	for _, att := range m.Attachments {
+		if att == nil {
+			continue
+		}
+
 		if att.ContentType == "application/pdf" || (len(att.Filename) > 4 && att.Filename[len(att.Filename)-4:] == ".pdf") {
 			urls = append(urls, att.URL)
 		}
