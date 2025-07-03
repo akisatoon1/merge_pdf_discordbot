@@ -2,7 +2,7 @@ package bot
 
 import (
 	"fmt"
-	"merge_pdf/usecase"
+	"merge_pdf/internal/usecase"
 	"os"
 	"os/signal"
 	"syscall"

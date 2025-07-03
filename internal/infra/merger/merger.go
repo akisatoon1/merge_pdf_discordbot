@@ -4,7 +4,7 @@ import (
 	"bytes"
 	"errors"
 	"io"
-	"merge_pdf/usecase"
+	"merge_pdf/internal/usecase"
 
 	pdfapi "github.com/pdfcpu/pdfcpu/pkg/api"
 )

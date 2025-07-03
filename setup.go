@@ -2,10 +2,10 @@ package main
 
 import (
 	"fmt"
-	"merge_pdf/infra/bot"
-	"merge_pdf/infra/merger"
-	"merge_pdf/infra/sender"
-	"merge_pdf/usecase"
+	"merge_pdf/internal/infra/bot"
+	"merge_pdf/internal/infra/merger"
+	"merge_pdf/internal/infra/sender"
+	"merge_pdf/internal/usecase"
 
 	"github.com/bwmarrin/discordgo"
 )

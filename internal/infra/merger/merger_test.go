@@ -1,7 +1,7 @@
 package merger
 
 import (
-	"merge_pdf/usecase"
+	"merge_pdf/internal/usecase"
 	"os"
 	"path/filepath"
 	"runtime"

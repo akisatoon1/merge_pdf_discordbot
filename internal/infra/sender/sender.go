@@ -3,7 +3,7 @@ package sender
 import (
 	"bytes"
 	"errors"
-	"merge_pdf/usecase"
+	"merge_pdf/internal/usecase"
 
 	"github.com/bwmarrin/discordgo"
 )
