@@ -2,13 +2,8 @@ package main
 
 import (
 	"fmt"
-	"merge_pdf/infra/merger"
-	"merge_pdf/infra/sender"
-	"merge_pdf/infra/server"
-	"merge_pdf/usecase"
 	"os"
 
-	"github.com/bwmarrin/discordgo"
 	"github.com/joho/godotenv"
 )
 
@@ -18,18 +13,12 @@ var (
 )
 
 func main() {
-	dg, err := discordgo.New("Bot " + TOKEN)
+	svr, err := setupServer(TOKEN, ChannelID)
 	if err != nil {
-		panic("Error creating Discord session: " + err.Error())
+		panic(fmt.Sprintf("Error setting up server: %v", err))
 	}
 
-	mgr := merger.NewMerger()
-	sdr := sender.NewSender(dg, ChannelID)
-
-	wtr := usecase.NewProcessor(mgr, sdr, ChannelID)
-
 	fmt.Println("Bot is now running. Press CTRL+C to exit.")
-	svr := server.NewServer(dg, wtr)
 	if err := svr.Serve(); err != nil {
 		panic(err)
 	}
