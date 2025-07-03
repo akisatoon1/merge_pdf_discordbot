@@ -2,18 +2,16 @@ package main
 
 import (
 	"fmt"
+	"merge_pdf/internal/config"
 	"os"
 
 	"github.com/joho/godotenv"
 )
 
-var (
-	TOKEN     string
-	ChannelID string
-)
-
 func main() {
-	bot, err := setupBot(TOKEN, ChannelID)
+	c := config.NewConfig()
+
+	bot, err := setupBot(c.DiscordBotToken, c.DiscordChannelID)
 	if err != nil {
 		panic(fmt.Sprintf("Error setting up server: %v", err))
 	}
@@ -32,15 +30,5 @@ func init() {
 		if err != nil {
 			panic("Error loading .env file")
 		}
-	}
-
-	TOKEN = os.Getenv("DISCORD_BOT_TOKEN")
-	if TOKEN == "" {
-		panic("DISCORD_BOT_TOKEN is not set in .env file")
-	}
-
-	ChannelID = os.Getenv("DISCORD_CHANNEL_ID")
-	if ChannelID == "" {
-		panic("DISCORD_CHANNEL_ID is not set in .env file")
 	}
 }
