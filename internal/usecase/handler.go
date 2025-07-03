@@ -6,26 +6,26 @@ import (
 	"github.com/bwmarrin/discordgo"
 )
 
-type Processor interface {
+type Handler interface {
 	MergeAndSend(s *discordgo.Session, m *discordgo.MessageCreate)
 	Response(s *discordgo.Session, m *discordgo.MessageCreate)
 }
 
-type processor struct {
+type handler struct {
 	merger    Merger
 	sender    Sender
 	channelID string
 }
 
-func NewProcessor(merger Merger, sender Sender, channelID string) Processor {
-	return &processor{
+func NewHandler(merger Merger, sender Sender, channelID string) Handler {
+	return &handler{
 		merger:    merger,
 		sender:    sender,
 		channelID: channelID,
 	}
 }
 
-func (w *processor) Response(s *discordgo.Session, m *discordgo.MessageCreate) {
+func (w *handler) Response(s *discordgo.Session, m *discordgo.MessageCreate) {
 	if s == nil || m == nil {
 		return
 	}
@@ -41,7 +41,7 @@ func (w *processor) Response(s *discordgo.Session, m *discordgo.MessageCreate) {
 	s.ChannelMessageSend(m.ChannelID, "メッセージを受信しました。")
 }
 
-func (w *processor) MergeAndSend(s *discordgo.Session, m *discordgo.MessageCreate) {
+func (w *handler) MergeAndSend(s *discordgo.Session, m *discordgo.MessageCreate) {
 	if s == nil || m == nil {
 		return
 	}
