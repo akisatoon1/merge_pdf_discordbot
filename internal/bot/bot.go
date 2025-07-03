@@ -1,4 +1,4 @@
-package main
+package bot
 
 import (
 	"fmt"
@@ -10,7 +10,7 @@ import (
 	"github.com/bwmarrin/discordgo"
 )
 
-func setupBot(token, channelID string) (usecase.Bot, error) {
+func NewBot(token, channelID string) (usecase.Bot, error) {
 	dg, err := discordgo.New("Bot " + token)
 	if err != nil {
 		return nil, fmt.Errorf("Error creating Discord session: %w", err)
