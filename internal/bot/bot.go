@@ -19,7 +19,10 @@ func NewBot(token, channelID string) (usecase.Bot, error) {
 	mgr := merger.NewMerger()
 	sdr := sender.NewSender(dg, channelID)
 
-	wtr := usecase.NewProcessor(mgr, sdr, channelID)
+	proc := usecase.NewProcessor(mgr, sdr, channelID)
 
-	return bot.NewBot(dg, wtr), nil
+	b := bot.NewBot(dg)
+	b.AddHandler(proc.MergeAndSend)
+	b.AddHandler(proc.Response)
+	return b, nil
 }

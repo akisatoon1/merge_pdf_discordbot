@@ -11,14 +11,12 @@ import (
 )
 
 type bot struct {
-	session   *discordgo.Session
-	processor usecase.Processor
+	session *discordgo.Session
 }
 
-func NewBot(s *discordgo.Session, proc usecase.Processor) usecase.Bot {
+func NewBot(s *discordgo.Session) usecase.Bot {
 	return &bot{
-		session:   s,
-		processor: proc,
+		session: s,
 	}
 }
 
@@ -26,8 +24,6 @@ func (s *bot) Start() error {
 	if s.session == nil {
 		return fmt.Errorf("discord session is nil")
 	}
-
-	s.session.AddHandler(s.processor.MergeAndSend)
 
 	err := s.session.Open()
 	if err != nil {
@@ -40,4 +36,12 @@ func (s *bot) Start() error {
 	<-stop
 
 	return nil
+}
+
+func (s *bot) AddHandler(handler func(s *discordgo.Session, m *discordgo.MessageCreate)) {
+	if s.session == nil {
+		fmt.Println("Discord session is nil, cannot add handler")
+		return
+	}
+	s.session.AddHandler(handler)
 }

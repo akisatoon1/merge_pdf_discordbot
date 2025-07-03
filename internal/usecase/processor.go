@@ -8,6 +8,7 @@ import (
 
 type Processor interface {
 	MergeAndSend(s *discordgo.Session, m *discordgo.MessageCreate)
+	Response(s *discordgo.Session, m *discordgo.MessageCreate)
 }
 
 type processor struct {
@@ -22,6 +23,22 @@ func NewProcessor(merger Merger, sender Sender, channelID string) Processor {
 		sender:    sender,
 		channelID: channelID,
 	}
+}
+
+func (w *processor) Response(s *discordgo.Session, m *discordgo.MessageCreate) {
+	if s == nil || m == nil {
+		return
+	}
+
+	if m.Author.Bot {
+		return
+	}
+
+	if m.ChannelID != w.channelID {
+		return
+	}
+
+	s.ChannelMessageSend(m.ChannelID, "メッセージを受信しました。")
 }
 
 func (w *processor) MergeAndSend(s *discordgo.Session, m *discordgo.MessageCreate) {
