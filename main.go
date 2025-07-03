@@ -37,9 +37,12 @@ func main() {
 }
 
 func init() {
-	err := godotenv.Load(".env")
-	if err != nil {
-		panic("Error loading .env file")
+	if len(os.Args) == 2 && os.Args[1] == "-e" {
+		fmt.Println("Read .env")
+		err := godotenv.Load(".env")
+		if err != nil {
+			panic("Error loading .env file")
+		}
 	}
 
 	TOKEN = os.Getenv("DISCORD_BOT_TOKEN")
