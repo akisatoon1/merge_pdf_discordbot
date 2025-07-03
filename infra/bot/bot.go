@@ -1,4 +1,4 @@
-package server
+package bot
 
 import (
 	"fmt"
@@ -10,19 +10,19 @@ import (
 	"github.com/bwmarrin/discordgo"
 )
 
-type server struct {
+type bot struct {
 	session   *discordgo.Session
 	processor usecase.Processor
 }
 
-func NewServer(s *discordgo.Session, proc usecase.Processor) usecase.Server {
-	return &server{
+func NewBot(s *discordgo.Session, proc usecase.Processor) usecase.Bot {
+	return &bot{
 		session:   s,
 		processor: proc,
 	}
 }
 
-func (s *server) Serve() error {
+func (s *bot) Start() error {
 	if s.session == nil {
 		return fmt.Errorf("discord session is nil")
 	}

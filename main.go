@@ -13,13 +13,13 @@ var (
 )
 
 func main() {
-	svr, err := setupServer(TOKEN, ChannelID)
+	bot, err := setupBot(TOKEN, ChannelID)
 	if err != nil {
 		panic(fmt.Sprintf("Error setting up server: %v", err))
 	}
 
 	fmt.Println("Bot is now running. Press CTRL+C to exit.")
-	if err := svr.Serve(); err != nil {
+	if err := bot.Start(); err != nil {
 		panic(err)
 	}
 	fmt.Println("Bot is shutting down.")
