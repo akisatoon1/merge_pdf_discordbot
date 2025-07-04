@@ -17,9 +17,13 @@ func NewConfig() *config {
 }
 
 func (c *config) Init() error {
-	err := eMode()
-	if err != nil {
-		return fmt.Errorf("Error initializing config: %w", err)
+	f := loadFlags()
+
+	if f.Emode {
+		err := loadEnvFile()
+		if err != nil {
+			return fmt.Errorf("Error initializing config: %w", err)
+		}
 	}
 
 	c.load()
@@ -44,13 +48,11 @@ func (c *config) validate() error {
 	return nil
 }
 
-func eMode() error {
-	if len(os.Args) == 2 && os.Args[1] == "-e" {
-		fmt.Println("Read .env")
-		err := godotenv.Load(".env")
-		if err != nil {
-			return fmt.Errorf("Error loading .env file: %w", err)
-		}
+func loadEnvFile() error {
+	fmt.Println("Read .env")
+	err := godotenv.Load(".env")
+	if err != nil {
+		return fmt.Errorf("Error loading .env file: %w", err)
 	}
 	return nil
 }
