@@ -66,10 +66,19 @@ func (w *handler) MergeAndSend(s *discordgo.Session, m *discordgo.MessageCreate)
 		return
 	}
 
-	err = w.sender.Send(merged)
+	fn := getFilename(m)
+	err = w.sender.Send(merged, fn)
 	if err != nil {
 		s.ChannelMessageSend(m.ChannelID, "PDF送信に失敗しました")
 	}
+}
+
+func getFilename(m *discordgo.MessageCreate) string {
+	c := m.Content
+	if c == "" {
+		return "merged.pdf"
+	}
+	return c + ".pdf"
 }
 
 func download(s *discordgo.Session, m *discordgo.MessageCreate) ([]*PDF, error) {
