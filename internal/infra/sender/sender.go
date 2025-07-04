@@ -20,7 +20,7 @@ func NewSender(s *discordgo.Session, channelID string) usecase.Sender {
 	}
 }
 
-func (s *sender) Send(pdf *usecase.PDF) error {
+func (s *sender) Send(pdf *usecase.PDF, filename string) error {
 	if s.session == nil {
 		return errors.New("discord session is nil")
 	}
@@ -31,7 +31,7 @@ func (s *sender) Send(pdf *usecase.PDF) error {
 
 	cont := pdf.Content()
 	file := &discordgo.File{
-		Name:        "merged.pdf",
+		Name:        filename,
 		ContentType: "application/pdf",
 		Reader:      bytes.NewReader(cont),
 	}

@@ -1,5 +1,5 @@
 package usecase
 
 type Sender interface {
-	Send(*PDF) error
+	Send(pdf *PDF, filename string) error
 }

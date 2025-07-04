@@ -32,7 +32,7 @@ func loadEnv() {
 	envPath := filepath.Join(testdir, ".env")
 	_ = godotenv.Load(envPath)
 
-	TOKEN = os.Getenv("DISCORD_TOKEN")
+	TOKEN = os.Getenv("DISCORD_BOT_TOKEN")
 	CHANNEL_ID = os.Getenv("DISCORD_CHANNEL_ID")
 }
 
@@ -68,7 +68,7 @@ func TestSender_Send(t *testing.T) {
 		t.Fatal("Failed to load test PDF data")
 	}
 
-	err = sdr.Send(pdf)
+	err = sdr.Send(pdf, "test.pdf")
 	if err != nil {
 		t.Errorf("Failed to send PDF: %v", err)
 	}
