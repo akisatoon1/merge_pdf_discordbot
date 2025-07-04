@@ -2,6 +2,7 @@ package usecase
 
 import (
 	"io"
+	"sort"
 
 	"github.com/bwmarrin/discordgo"
 )
@@ -53,6 +54,8 @@ func (w *handler) MergeAndSend(s *discordgo.Session, m *discordgo.MessageCreate)
 	if m.ChannelID != w.channelID {
 		return
 	}
+
+	sortByFilename(m.Attachments)
 
 	pdfs, err := download(s, m)
 	if err != nil {
@@ -115,4 +118,17 @@ func getURLs(m *discordgo.MessageCreate) []string {
 		}
 	}
 	return urls
+}
+
+// 添付ファイルをファイル名で昇順ソートして取得
+func sortByFilename(atts []*discordgo.MessageAttachment) {
+	sort.Slice(atts, func(i, j int) bool {
+		if atts[i] == nil {
+			return false
+		}
+		if atts[j] == nil {
+			return true
+		}
+		return atts[i].Filename < atts[j].Filename
+	})
 }
