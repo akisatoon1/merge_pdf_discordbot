@@ -57,7 +57,7 @@ func (w *handler) MergeAndSend(s *discordgo.Session, m *discordgo.MessageCreate)
 
 	sortByFilename(m.Attachments)
 
-	pdfs, err := download(s, m)
+	pdfs, err := download(s, m.Attachments)
 	if err != nil {
 		s.ChannelMessageSend(m.ChannelID, "PDFの取得に失敗しました")
 		return
@@ -84,8 +84,8 @@ func getFilename(m *discordgo.MessageCreate) string {
 	return c + ".pdf"
 }
 
-func download(s *discordgo.Session, m *discordgo.MessageCreate) ([]*PDF, error) {
-	urls := getURLs(m)
+func download(s *discordgo.Session, atts []*discordgo.MessageAttachment) ([]*PDF, error) {
+	urls := getURLs(atts)
 
 	var pdfs []*PDF
 	for _, url := range urls {
@@ -106,9 +106,9 @@ func download(s *discordgo.Session, m *discordgo.MessageCreate) ([]*PDF, error) 
 	return pdfs, nil
 }
 
-func getURLs(m *discordgo.MessageCreate) []string {
+func getURLs(atts []*discordgo.MessageAttachment) []string {
 	var urls []string
-	for _, att := range m.Attachments {
+	for _, att := range atts {
 		if att == nil {
 			continue
 		}
